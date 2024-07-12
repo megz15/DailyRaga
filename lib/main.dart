@@ -19,8 +19,8 @@ Future<Map<String, String>> fetchRandomRaga() async {
   }
 }
 
-Future<Map<String, String>> fetchRagaDetails(String url) async {
-  Map<String, String> parsedData = {};
+Future<List<Map<String, String>>> fetchRagaDetails(String url) async {
+  List<Map<String, String>> parsedData = [];
 
   final response = await http.get(Uri.parse(url));
 
@@ -30,8 +30,10 @@ Future<Map<String, String>> fetchRagaDetails(String url) async {
 
     for (var ragaDetail in ragaDetails) {
       var ragaDetailList = ragaDetail.querySelectorAll("td");
-      parsedData[ragaDetailList[0].querySelector("a")!.text] =
-          ragaDetailList[1].text;
+      parsedData.add({
+        "param": ragaDetailList[0].querySelector("a")!.text,
+        "val": ragaDetailList[1].text
+      });
     }
 
     return parsedData;
@@ -102,7 +104,18 @@ class _MyHomePageState extends State<MyHomePage> {
                                   if (snapshot.hasError) {
                                     return Text('Error: ${snapshot.error}');
                                   } else {
-                                    return Text(snapshot.data.toString());
+                                    return DataTable(
+                                      columns: const [
+                                        DataColumn(label: Text('Parameter')),
+                                        DataColumn(label: Text('Value')),
+                                      ],
+                                      rows: snapshot.data.map<DataRow>((row) {
+                                        return DataRow(cells: [
+                                          DataCell(Text(row['param'] ?? '')),
+                                          DataCell(Text(row['val'] ?? '')),
+                                        ]);
+                                      }).toList(),
+                                    );
                                   }
                               }
                             })
