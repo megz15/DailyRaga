@@ -71,6 +71,19 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  Map<String, String>? ragaData;
+
+  @override
+  void initState() {
+    super.initState();
+    fetchRaga();
+  }
+
+  Future<void> fetchRaga() async {
+    ragaData = await fetchRandomRaga();
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -94,31 +107,34 @@ class _MyHomePageState extends State<MyHomePage> {
                       children: [
                         Text(snapshot.data!["name"]!),
                         FutureBuilder(
-                            future: fetchRagaDetails(snapshot.data!["url"]!),
-                            builder:
-                                (BuildContext ctx, AsyncSnapshot snapshot) {
-                              switch (snapshot.connectionState) {
-                                case ConnectionState.waiting:
-                                  return const Text('Loading....');
-                                default:
-                                  if (snapshot.hasError) {
-                                    return Text('Error: ${snapshot.error}');
-                                  } else {
-                                    return DataTable(
-                                      columns: const [
-                                        DataColumn(label: Text('Parameter')),
-                                        DataColumn(label: Text('Value')),
-                                      ],
-                                      rows: snapshot.data.map<DataRow>((row) {
-                                        return DataRow(cells: [
-                                          DataCell(Text(row['param'] ?? '')),
-                                          DataCell(Text(row['val'] ?? '')),
-                                        ]);
-                                      }).toList(),
-                                    );
-                                  }
-                              }
-                            })
+                          future: fetchRagaDetails(snapshot.data!["url"]!),
+                          builder: (BuildContext ctx, AsyncSnapshot snapshot) {
+                            switch (snapshot.connectionState) {
+                              case ConnectionState.waiting:
+                                return const Text('Loading....');
+                              default:
+                                if (snapshot.hasError) {
+                                  return Text('Error: ${snapshot.error}');
+                                } else {
+                                  return DataTable(
+                                    columns: const [
+                                      DataColumn(label: Text('Parameter')),
+                                      DataColumn(label: Text('Value')),
+                                    ],
+                                    rows: snapshot.data.map<DataRow>((row) {
+                                      return DataRow(cells: [
+                                        DataCell(Text(row['param'] ?? '')),
+                                        DataCell(Text(row['val'] ?? '')),
+                                      ]);
+                                    }).toList(),
+                                  );
+                                }
+                            }
+                          },
+                        ),
+                        ElevatedButton(
+                            onPressed: () => fetchRaga(),
+                            child: const Text('Fetch Random Raga'))
                       ],
                     );
                   }
