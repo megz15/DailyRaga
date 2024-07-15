@@ -1,4 +1,4 @@
-package com.example.dailyraga
+package megh.dailyraga
 
 import io.flutter.embedding.android.FlutterActivity
 
