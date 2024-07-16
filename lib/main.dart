@@ -1,6 +1,6 @@
 import 'package:dailyraga/screens/screens.dart';
 import 'package:flutter/material.dart';
-import 'fn_raga_fetch.dart';
+import 'package:dailyraga/fn_raga_fetch.dart';
 
 void main() {
   runApp(const MyApp());
@@ -73,9 +73,17 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(widget.title),
         actions: [
-          IconButton(onPressed: () {}, icon: const Icon(Icons.view_list)),
-          IconButton(onPressed: () {}, icon: const Icon(Icons.star_rounded)),
-          IconButton(onPressed: () {}, icon: const Icon(Icons.settings)),
+          IconButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const RagaListScreen()),
+                );
+              },
+              icon: const Icon(Icons.view_list)),
+          // IconButton(onPressed: () {}, icon: const Icon(Icons.star_rounded)),
+          // IconButton(onPressed: () {}, icon: const Icon(Icons.settings)),
           IconButton(
               onPressed: () {
                 Navigator.push(

@@ -1,6 +1,22 @@
 import 'package:http/http.dart' as http;
 import 'package:html/parser.dart';
 
+Future<List<String>> fetchAllRagas() async {
+  final response =
+      await http.get(Uri.parse("https://tanarang.com/raag-index/"));
+
+  if (response.statusCode == 200) {
+    var raga = parse(response.body)
+        .querySelectorAll("td.has-text-align-center")
+        .map((td) => td.querySelector("a")!.text)
+        .toList();
+
+    return (raga);
+  } else {
+    throw Exception('Failed to load ragas');
+  }
+}
+
 Future<Map<String, String>> fetchRandomRaga() async {
   // return {
   //   "name": "Bhoopali",
