@@ -128,6 +128,28 @@ class _MyHomePageState extends State<MyHomePage> {
     setState(() {});
   }
 
+  Widget InternetError(String err) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(32),
+          child: Text(
+              'Error: ${err.contains("errno = 7") ? "Can't reach the host!\nAre you connected to the internet?" : err}',
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.w500,
+              )),
+        ),
+        ElevatedButton(
+          onPressed: () => fetchRaga(),
+          child: const Text('Try again'),
+        )
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -145,7 +167,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   return const Center(child: CircularProgressIndicator());
                 default:
                   if (snapshot.hasError) {
-                    return Text('Error: ${snapshot.error}');
+                    return InternetError(snapshot.error.toString());
                   } else {
                     return Padding(
                       padding: const EdgeInsets.all(16),
@@ -180,7 +202,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                         child: CircularProgressIndicator());
                                   default:
                                     if (snapshot.hasError) {
-                                      return Text('Error: ${snapshot.error}');
+                                      return InternetError(
+                                          snapshot.error.toString());
                                     } else {
                                       var (ragaTable, ragaParas) =
                                           snapshot.data;
