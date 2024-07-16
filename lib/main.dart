@@ -1,3 +1,4 @@
+import 'package:dailyraga/screens/screens.dart';
 import 'package:flutter/material.dart';
 import 'fn_raga_fetch.dart';
 
@@ -71,6 +72,19 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(widget.title),
+        actions: [
+          IconButton(onPressed: () {}, icon: const Icon(Icons.view_list)),
+          IconButton(onPressed: () {}, icon: const Icon(Icons.star_rounded)),
+          IconButton(onPressed: () {}, icon: const Icon(Icons.settings)),
+          IconButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const AboutScreen()),
+                );
+              },
+              icon: const Icon(Icons.help)),
+        ],
       ),
       body: Center(
         child: FutureBuilder(
