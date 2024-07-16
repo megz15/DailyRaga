@@ -1,4 +1,5 @@
 import 'package:dailyraga/fn_raga_fetch.dart';
+import 'package:dailyraga/screens/screens.dart';
 import 'package:flutter/material.dart';
 
 class RagaListScreen extends StatefulWidget {
@@ -19,7 +20,8 @@ class _RagaListScreenState extends State<RagaListScreen> {
       ),
       body: FutureBuilder(
         future: fetchAllRagas(),
-        builder: (BuildContext ctx, AsyncSnapshot<List<String>> snapshot) {
+        builder: (BuildContext ctx,
+            AsyncSnapshot<List<Map<String, String>>> snapshot) {
           switch (snapshot.connectionState) {
             case ConnectionState.waiting:
               return const Center(child: CircularProgressIndicator());
@@ -32,8 +34,17 @@ class _RagaListScreenState extends State<RagaListScreen> {
                   child: ListView.separated(
                       itemBuilder: (BuildContext ctx, int i) {
                         return ListTile(
-                          title: Text(snapshot.data![i]),
-                          onTap: () {},
+                          title: Text(snapshot.data![i]["name"]!),
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => RagaDetailScreen(
+                                    raga: snapshot.data![i]["name"]!,
+                                    url: snapshot.data![i]["url"]!),
+                              ),
+                            );
+                          },
                         );
                       },
                       separatorBuilder: (BuildContext _, int __) =>

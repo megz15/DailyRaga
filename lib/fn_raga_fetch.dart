@@ -1,15 +1,18 @@
 import 'package:http/http.dart' as http;
 import 'package:html/parser.dart';
 
-Future<List<String>> fetchAllRagas() async {
+Future<List<Map<String, String>>> fetchAllRagas() async {
   final response =
       await http.get(Uri.parse("https://tanarang.com/raag-index/"));
 
   if (response.statusCode == 200) {
-    var raga = parse(response.body)
-        .querySelectorAll("td.has-text-align-center")
-        .map((td) => td.querySelector("a")!.text)
-        .toList();
+    var raga =
+        parse(response.body).querySelectorAll("td.has-text-align-center").map(
+      (td) {
+        var raga = td.querySelector("a");
+        return {"name": raga!.text, "url": raga.attributes["href"]!};
+      },
+    ).toList();
 
     return (raga);
   } else {
