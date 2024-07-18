@@ -10,50 +10,95 @@ class RagaListScreen extends StatefulWidget {
 }
 
 class _RagaListScreenState extends State<RagaListScreen> {
+  final TextEditingController _searchController = TextEditingController();
+  List<Map<String, String>> _ragas = [];
+  List<Map<String, String>> _filteredRagas = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchRagas();
+    _searchController.addListener(_filterRagas);
+  }
+
+  @override
+  void dispose() {
+    _searchController.removeListener(_filterRagas);
+    _searchController.dispose();
+    super.dispose();
+  }
+
+  Future<void> _fetchRagas() async {
+    late List<Map<String, String>> ragas;
+    try {
+      ragas = await fetchAllRagas();
+    } catch (err) {
+      // Handle error
+      ragas = [
+        {"Error": err.toString()}
+      ];
+    }
+    setState(() {
+      _ragas = ragas;
+      _filteredRagas = ragas;
+    });
+  }
+
+  void _filterRagas() {
+    String query = _searchController.text.toLowerCase();
+    setState(() {
+      _filteredRagas = _ragas
+          .where((raga) => raga["name"]!.toLowerCase().contains(query))
+          .toList();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: const Text("Raga List"),
-        actions: [IconButton(onPressed: () {}, icon: const Icon(Icons.search))],
       ),
-      body: FutureBuilder(
-        future: fetchAllRagas(),
-        builder: (BuildContext ctx,
-            AsyncSnapshot<List<Map<String, String>>> snapshot) {
-          switch (snapshot.connectionState) {
-            case ConnectionState.waiting:
-              return const Center(child: CircularProgressIndicator());
-            default:
-              if (snapshot.hasError) {
-                return Text("Error: ${snapshot.error}");
-              } else {
-                return Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: ListView.separated(
-                      itemBuilder: (BuildContext ctx, int i) {
-                        return ListTile(
-                          title: Text(snapshot.data![i]["name"]!),
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => RagaDetailScreen(
-                                    raga: snapshot.data![i]["name"]!,
-                                    url: snapshot.data![i]["url"]!),
-                              ),
+      body: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          children: [
+            SearchBar(
+              controller: _searchController,
+              leading: const Icon(Icons.search),
+              padding: const WidgetStatePropertyAll<EdgeInsets>(
+                EdgeInsets.symmetric(horizontal: 16.0),
+              ),
+            ),
+            Expanded(
+              child: _ragas.isEmpty
+                  ? const Center(child: CircularProgressIndicator())
+                  : _ragas[0].containsKey("Error")
+                      ? Text(_ragas[0]["Error"]!)
+                      : ListView.separated(
+                          itemBuilder: (BuildContext ctx, int i) {
+                            return ListTile(
+                              title: Text(_filteredRagas[i]["name"]!),
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => RagaDetailScreen(
+                                        raga: _filteredRagas[i]["name"]!,
+                                        url: _filteredRagas[i]["url"]!),
+                                  ),
+                                );
+                              },
                             );
                           },
-                        );
-                      },
-                      separatorBuilder: (BuildContext _, int __) =>
-                          const Divider(indent: 20, endIndent: 20),
-                      itemCount: snapshot.data!.length),
-                );
-              }
-          }
-        },
+                          separatorBuilder: (BuildContext _, int __) =>
+                              const Divider(indent: 20, endIndent: 20),
+                          itemCount: _filteredRagas.length,
+                        ),
+            ),
+          ],
+        ),
       ),
     );
   }
