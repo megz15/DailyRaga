@@ -57,6 +57,7 @@ class AboutScreen extends StatelessWidget {
                     child: const Text("Visit Tanarang.com!"),
                   ),
                 ),
+                const SizedBox(height: 8),
                 SizedBox(
                   width: MediaQuery.of(context).size.width * 0.5,
                   child: ElevatedButton(
@@ -65,6 +66,7 @@ class AboutScreen extends StatelessWidget {
                     child: const Text("Visit Swaranjali Web!"),
                   ),
                 ),
+                const SizedBox(height: 8),
                 SizedBox(
                   width: MediaQuery.of(context).size.width * 0.5,
                   child: ElevatedButton(
@@ -73,6 +75,7 @@ class AboutScreen extends StatelessWidget {
                     child: const Text("Try out NaadGen!"),
                   ),
                 ),
+                const SizedBox(height: 8),
                 SizedBox(
                   width: MediaQuery.of(context).size.width * 0.5,
                   child: ElevatedButton(

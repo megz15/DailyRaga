@@ -136,7 +136,10 @@ class _MyHomePageState extends State<MyHomePage> {
                                 switch (snapshot.connectionState) {
                                   case ConnectionState.waiting:
                                     return const Center(
-                                        child: CircularProgressIndicator());
+                                        child: Padding(
+                                      padding: EdgeInsets.all(32),
+                                      child: CircularProgressIndicator(),
+                                    ));
                                   default:
                                     if (snapshot.hasError) {
                                       return internetError(
