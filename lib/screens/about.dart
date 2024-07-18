@@ -47,7 +47,14 @@ class AboutScreen extends StatelessWidget {
                 const Text("... and that's me :)"),
                 const SizedBox(height: 32),
                 const Text(
-                    "The ragas are currently sourced from Tanarang, alternate sources will be added in future releases."),
+                  "The ragas are currently sourced from Tanarang, alternate sources will be added in future releases.",
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 16),
+                const Text(
+                  "Feeling inspired? Check out my other project, NaadGen, and start making your own compositions!",
+                  textAlign: TextAlign.center,
+                ),
                 const SizedBox(height: 32),
                 SizedBox(
                   width: MediaQuery.of(context).size.width * 0.5,
@@ -57,7 +64,7 @@ class AboutScreen extends StatelessWidget {
                     child: const Text("Visit Tanarang.com!"),
                   ),
                 ),
-                const SizedBox(height: 8),
+                const SizedBox(height: 2),
                 SizedBox(
                   width: MediaQuery.of(context).size.width * 0.5,
                   child: ElevatedButton(
@@ -66,7 +73,7 @@ class AboutScreen extends StatelessWidget {
                     child: const Text("Visit Swaranjali Web!"),
                   ),
                 ),
-                const SizedBox(height: 8),
+                const SizedBox(height: 2),
                 SizedBox(
                   width: MediaQuery.of(context).size.width * 0.5,
                   child: ElevatedButton(
@@ -75,7 +82,7 @@ class AboutScreen extends StatelessWidget {
                     child: const Text("Try out NaadGen!"),
                   ),
                 ),
-                const SizedBox(height: 8),
+                const SizedBox(height: 2),
                 SizedBox(
                   width: MediaQuery.of(context).size.width * 0.5,
                   child: ElevatedButton(

@@ -27,7 +27,7 @@ class _RagaDetailScreenState extends State<RagaDetailScreen> {
         ),
         ElevatedButton(
           onPressed: () => () {},
-          child: const Text('Try again'),
+          child: const Text('Try again!'),
         )
       ],
     );

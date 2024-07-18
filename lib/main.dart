@@ -59,8 +59,8 @@ class _MyHomePageState extends State<MyHomePage> {
               )),
         ),
         ElevatedButton(
-          onPressed: () => fetchRaga(),
-          child: const Text('Try again'),
+          onPressed: fetchRaga,
+          child: const Text('Try again!'),
         )
       ],
     );

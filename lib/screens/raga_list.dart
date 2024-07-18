@@ -71,11 +71,32 @@ class _RagaListScreenState extends State<RagaListScreen> {
                 EdgeInsets.symmetric(horizontal: 16.0),
               ),
             ),
+            const SizedBox(height: 16),
             Expanded(
               child: _ragas.isEmpty
                   ? const Center(child: CircularProgressIndicator())
                   : _ragas[0].containsKey("Error")
-                      ? Text(_ragas[0]["Error"]!)
+                      ? Center(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(32),
+                                child: Text(
+                                  'Error: ${_ragas[0]["Error"]!.contains("errno = 7") ? "Can't reach the host!\nAre you connected to the internet?" : _ragas[0]["Error"]!}',
+                                  textAlign: TextAlign.center,
+                                  style: const TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              ),
+                              ElevatedButton(
+                                  onPressed: _fetchRagas,
+                                  child: const Text("Try again!"))
+                            ],
+                          ),
+                        )
                       : ListView.separated(
                           itemBuilder: (BuildContext ctx, int i) {
                             return ListTile(
