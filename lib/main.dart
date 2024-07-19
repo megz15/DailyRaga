@@ -81,7 +81,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       builder: (context) => const RagaListScreen()),
                 );
               },
-              icon: const Icon(Icons.view_list)),
+              icon: const Icon(Icons.search)),
           // IconButton(onPressed: () {}, icon: const Icon(Icons.star_rounded)),
           // IconButton(onPressed: () {}, icon: const Icon(Icons.settings)),
           IconButton(
@@ -114,6 +114,8 @@ class _MyHomePageState extends State<MyHomePage> {
                             Wrap(
                               alignment: WrapAlignment.center,
                               crossAxisAlignment: WrapCrossAlignment.center,
+                              spacing: 16,
+                              runSpacing: 16,
                               children: [
                                 Text(
                                   "Raga ${snapshot.data!["name"]!}",
@@ -122,7 +124,6 @@ class _MyHomePageState extends State<MyHomePage> {
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
-                                const SizedBox(width: 16),
                                 ElevatedButton(
                                   onPressed: () => fetchRaga(),
                                   child: const Text('Fetch New Raga'),

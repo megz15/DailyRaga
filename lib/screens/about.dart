@@ -18,31 +18,30 @@ class AboutScreen extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Text(
-                  "DailyRaga is a simple app to show a random raga with its key attributes upon opening. The primary motivation was that I wanted to find and take on new ragas, and get suggestions on what raga to play when I would play the sarod.",
+                RichText(
                   textAlign: TextAlign.center,
+                  text: const TextSpan(
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: Colors.black,
+                    ),
+                    children: <TextSpan>[
+                      TextSpan(
+                        text: 'DailyRaga',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      TextSpan(
+                        text:
+                            ' is a simple app to show a random raga with its key attributes upon opening. The primary motivation was that I wanted to find and take on new ragas, and get suggestions on what raga to play when I would play the sarod.',
+                      ),
+                    ],
+                  ),
                 ),
                 const SizedBox(height: 32),
                 ClipRRect(
-                  borderRadius: BorderRadius.circular(20),
-                  child: Image.network("https://i.imgur.com/L08nSl9.png",
-                      width: 150,
-                      height: 150, loadingBuilder: (BuildContext context,
-                          Widget child, ImageChunkEvent? loadingProgress) {
-                    if (loadingProgress == null) return child;
-                    return SizedBox(
-                      width: 150,
-                      height: 150,
-                      child: Center(
-                        child: CircularProgressIndicator(
-                          value: loadingProgress.expectedTotalBytes != null
-                              ? loadingProgress.cumulativeBytesLoaded /
-                                  loadingProgress.expectedTotalBytes!
-                              : null,
-                        ),
-                      ),
-                    );
-                  }),
+                  borderRadius: BorderRadius.circular(12),
+                  child: Image.asset("lib/assets/images/me.png",
+                      width: 150, height: 150),
                 ),
                 const Text("... and that's me :)"),
                 const SizedBox(height: 32),
@@ -50,46 +49,74 @@ class AboutScreen extends StatelessWidget {
                   "The ragas are currently sourced from Tanarang, alternate sources will be added in future releases.",
                   textAlign: TextAlign.center,
                 ),
+                const SizedBox(height: 8),
+                ElevatedButton(
+                  onPressed: () =>
+                      launchUrl(Uri.parse("https://tanarang.com/")),
+                  child: const Text("Visit Tanarang.com"),
+                ),
                 const SizedBox(height: 16),
-                const Text(
-                  "Feeling inspired? Check out my other project, NaadGen, and start making your own compositions!",
+                RichText(
                   textAlign: TextAlign.center,
+                  text: const TextSpan(
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: Colors.black,
+                    ),
+                    children: <TextSpan>[
+                      TextSpan(
+                          text:
+                              "Feeling inspired? Check out my other project "),
+                      TextSpan(
+                        text: 'NaadGen',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      TextSpan(
+                        text: ' and start making your own compositions!',
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 8),
+                Wrap(
+                  spacing: 8,
+                  runSpacing: 8,
+                  alignment: WrapAlignment.center,
+                  children: [
+                    ElevatedButton(
+                      onPressed: () => launchUrl(
+                          Uri.parse("https://swaranjali.vercel.app/naadgen")),
+                      child: const Text("NaadGen"),
+                    ),
+                    ElevatedButton(
+                      onPressed: () => launchUrl(
+                          Uri.parse("https://swaranjali.vercel.app/")),
+                      child: const Text("Swaranjali Web"),
+                    ),
+                  ],
                 ),
                 const SizedBox(height: 32),
-                SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.5,
-                  child: ElevatedButton(
-                    onPressed: () =>
-                        launchUrl(Uri.parse("https://tanarang.com/")),
-                    child: const Text("Visit Tanarang.com!"),
-                  ),
-                ),
-                const SizedBox(height: 2),
-                SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.5,
-                  child: ElevatedButton(
-                    onPressed: () =>
-                        launchUrl(Uri.parse("https://swaranjali.vercel.app/")),
-                    child: const Text("Visit Swaranjali Web!"),
-                  ),
-                ),
-                const SizedBox(height: 2),
-                SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.5,
-                  child: ElevatedButton(
-                    onPressed: () => launchUrl(
-                        Uri.parse("https://swaranjali.vercel.app/naadgen")),
-                    child: const Text("Try out NaadGen!"),
-                  ),
-                ),
-                const SizedBox(height: 2),
-                SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.5,
-                  child: ElevatedButton(
-                    onPressed: () =>
-                        launchUrl(Uri.parse("https://github.com/megz15/")),
-                    child: const Text("Check out my GitHub"),
-                  ),
+                Wrap(
+                  alignment: WrapAlignment.center,
+                  spacing: 8,
+                  runSpacing: 8,
+                  children: [
+                    IconButton(
+                        onPressed: () =>
+                            launchUrl(Uri.parse("https://github.com/megz15/")),
+                        icon: Image.asset("lib/assets/images/github.png",
+                            width: 64, height: 64)),
+                    IconButton(
+                        onPressed: () => launchUrl(
+                            Uri.parse("https://www.instagram.com/megh.835/")),
+                        icon: Image.asset("lib/assets/images/insta.png",
+                            width: 64, height: 64)),
+                    IconButton(
+                        onPressed: () => launchUrl(
+                            Uri.parse("mailto:meghraj.g16@gmail.com")),
+                        icon: Image.asset("lib/assets/images/mail.png",
+                            width: 64, height: 64))
+                  ],
                 ),
               ],
             ),
